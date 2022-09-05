@@ -11,21 +11,21 @@ console.log(argv);
 // Make this const default to port 3000 if there is no argument given for `--port`.
 const port = argv['port'] || 3000;
 
+const server = http.createServer((req, res) => {
 
-fs.readFile('./public/index.html', 'Utf8', (err, data) =>{
-    if(err){
-        console.error(err);
-        return;
-    }
-    //console.log(data);
-    const server = http.createServer((req, res) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        res.end(data);
-    })
-
-    server.listen(port, () => {
-        console.log(`Server running at port ${port}`);
+    fs.readFile('./public/index.html', 'Utf8', (err, data) =>{
+        if(err){
+            console.error(err);
+            return;
+        }
+        res.statusCode = 200;   //Since file was found return a status code of 200                                  
+        res.setHeader('Content-Type', 'text/html'); //metadata
+        res.end(data); //response body containing requested document
     })
 })
 
+//tell server object to listen on port 80, The server to route network
+//traffic to this application.
+server.listen(port, () => {
+    console.log(`Server running at port ${port}`);
+})
